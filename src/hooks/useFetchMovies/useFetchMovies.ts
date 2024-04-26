@@ -1,5 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
-import { ICurrentPageType } from './useFetchMovies.types'
+import {
+  ICurrentPageType,
+  IUseFetchMoviesReturnType,
+} from './useFetchMovies.types'
 import { TMDB_MOVIES_BASE_URL } from '../../constants/movie_constants'
 
 const useFetchMovies = ({
@@ -12,7 +15,7 @@ const useFetchMovies = ({
   currentPage?: number
   listingType?: string | string[]
   releaseYear: string
-}) => {
+}): IUseFetchMoviesReturnType => {
   const [data, setData] = useState<ICurrentPageType>()
   const [isLoading, setIsLoading] = useState(false)
 
@@ -47,5 +50,3 @@ const useFetchMovies = ({
 }
 
 export { useFetchMovies }
-
-// https://api.themoviedb.org/3/discover/movie?api_key=2dca580c2a14b55200e784d157207b4d&sort_by=popularity.desc&primary_release_year=2023&page=1&vote_count.gte=100

@@ -1,8 +1,9 @@
 import isEmpty from 'lodash.isempty'
 import './TopBar.css'
+import { IGenres } from '../../hooks/useFetchMovies/useFetchMovies.types'
 
 interface ITopBarProps {
-  genres: { id: number; name: string }[]
+  genres: IGenres[] | null
 }
 
 export default function TopBar(props: ITopBarProps) {
@@ -12,13 +13,13 @@ export default function TopBar(props: ITopBarProps) {
     return null
   }
 
-  const modifiedGenres = [{ id: 'dfdf', name: 'All' }].concat(genres)
+  // const modifiedGenres = [{ id: 'dfdf', name: 'All' }].concat(genres)
 
   return (
     <div className="topbar__container">
       {/* {!isEmpty(genres) && genres?.map(g => <div>{g.name}</div>)} */}
       <div className="topbar__genres">
-        {modifiedGenres?.map(genre => {
+        {genres?.map(genre => {
           return (
             <button
               // onClick={() => push(`/${genre.id}`)}

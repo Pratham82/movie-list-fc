@@ -3,7 +3,10 @@ import { Layout, MovieList } from './components'
 import TopBar from './components/TopBar/TopBar'
 import { TMDB_GENRE_URL } from './constants/movie_constants'
 import { useFetchMovies } from './hooks/useFetchMovies/useFetchMovies'
-import { IResult } from './hooks/useFetchMovies/useFetchMovies.types'
+import {
+  IGenresPage,
+  IResult,
+} from './hooks/useFetchMovies/useFetchMovies.types'
 
 function App() {
   const { data, isLoading } = useFetchMovies({
@@ -11,13 +14,14 @@ function App() {
     releaseYear: '2012',
   })
 
-  const { data: genreData, isLoading: isGenreLoading } = useFetchMovies({
+  const { data: genreData } = useFetchMovies({
     baseUrl: TMDB_GENRE_URL,
     currentPage: 1,
     releaseYear: '2012',
   })
 
   const pageData = data as IResult
+  const genrePageData = genreData as IGenresPage
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -25,8 +29,7 @@ function App() {
 
   return (
     <Layout>
-      {/* <TopBar genres={genreData?.genres} /> */}
-      <TopBar genres={genreData?.genres} />
+      <TopBar genres={genrePageData?.genres} />
       <MovieList movies={pageData?.results} />
     </Layout>
   )

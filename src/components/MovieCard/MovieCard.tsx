@@ -3,7 +3,7 @@ import { IMovieCard } from './MovieCard.types'
 import './MovieCard.css'
 
 export default function MovieCard(props: IMovieCard) {
-  const { original_title: title = '', poster_path: poster = '', id } = props
+  const { original_title: title = '', poster_path: poster = '' } = props
   return (
     <div className="movie-card__layout">
       <div className="movie-card__container">

@@ -68,12 +68,13 @@ export interface ISpokenLanguages {
   name: string
 }
 
-export interface Genre {
-  id: number
-  name: string
-}
-export interface IGenres {
-  genres?: Genre[] | null
+export interface IGenresPage {
+  genres: IGenres[] | null
 }
 
-export type ICurrentPageType = IResult | IMoviePage | IGenres
+export type ICurrentPageType = IResult | IMoviePage | IGenresPage | undefined
+
+export type IUseFetchMoviesReturnType = {
+  data: ICurrentPageType
+  isLoading: boolean
+}

@@ -78,3 +78,12 @@ export type IUseFetchMoviesReturnType = {
   data: ICurrentPageType
   isLoading: boolean
 }
+
+export interface IUseFetchMoviesParams {
+  baseUrl?: string | URL
+  currentPage?: number
+  listingType?: string | string[]
+  releaseYear: string
+  genre?: number
+  apiKey?: string
+}

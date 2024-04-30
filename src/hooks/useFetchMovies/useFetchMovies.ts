@@ -2,32 +2,34 @@ import { useCallback, useEffect, useState } from 'react'
 import {
   ICurrentPageType,
   IUseFetchMoviesReturnType,
+  IUseFetchMoviesParams,
 } from './useFetchMovies.types'
 import { TMDB_MOVIES_BASE_URL } from '../../constants/movie_constants'
+import { constructURL } from '../../utils'
 
 const useFetchMovies = ({
   baseUrl = TMDB_MOVIES_BASE_URL,
   currentPage = 1,
   listingType = '',
   releaseYear = '2012',
-}: {
-  baseUrl?: string
-  currentPage?: number
-  listingType?: string | string[]
-  releaseYear: string
-}): IUseFetchMoviesReturnType => {
+  genre,
+}: IUseFetchMoviesParams): IUseFetchMoviesReturnType => {
   const [data, setData] = useState<ICurrentPageType>()
   const [isLoading, setIsLoading] = useState(false)
 
-  const fetchMovies = useCallback(async () => {
-    const url = `${baseUrl}?api_key=${encodeURIComponent(
-      import.meta.env.VITE_TMDB_API_KEY || ''
-    )}&page=${currentPage}&language=en-US&sort_by=popularity.desc&primary_release_year=${releaseYear}&vote_count.gte=100`
+  const finalUrl = constructURL({
+    baseUrl,
+    apiKey: encodeURIComponent(import.meta.env.VITE_TMDB_API_KEY || ''),
+    currentPage,
+    genre,
+    releaseYear,
+  })
 
+  const fetchMovies = useCallback(async () => {
     setIsLoading(true)
 
     try {
-      const res = await fetch(url)
+      const res = await fetch(finalUrl)
       const movieResponse: ICurrentPageType = await res.json()
 
       setData(movieResponse)
@@ -37,11 +39,14 @@ const useFetchMovies = ({
     } finally {
       setIsLoading(false)
     }
-  }, [baseUrl, currentPage, releaseYear])
+  }, [finalUrl])
 
   useEffect(() => {
+    if (genre === 1) {
+      return
+    }
     fetchMovies()
-  }, [currentPage, fetchMovies, listingType])
+  }, [currentPage, fetchMovies, listingType, genre])
 
   return {
     data,

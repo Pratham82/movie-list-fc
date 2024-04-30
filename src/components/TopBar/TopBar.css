@@ -1,3 +1,9 @@
+:root {
+  --primary-color: red;
+  --dark-bg: #333;
+  --light-bg: #fff;
+}
+
 .topbar__container {
   /* display: flex;
   position: fixed;
@@ -15,9 +21,9 @@
   position: fixed;
   top: 0;
   width: 100%;
-  background-color: #333;
+  background-color: var(--dark-bg);
   height: 50px;
-  color: #fff;
+  color: var(--light-bg);
   padding: 10px 0;
   text-align: center;
   z-index: 1000; /* Ensure the topbar is above other content */
@@ -40,5 +46,5 @@
 }
 
 .top__button-selected {
-  background-color: red;
+  background-color: var(--primary-color);
 }

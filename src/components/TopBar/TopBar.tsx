@@ -3,34 +3,39 @@ import './TopBar.css'
 import { IGenres } from '../../hooks/useFetchMovies/useFetchMovies.types'
 
 interface ITopBarProps {
-  genres: IGenres[] | null
+  state: {
+    genres: IGenres[] | null
+    currentGenre: number
+  }
+  actions: {
+    onSelectGenre: (id: number) => void
+  }
 }
 
 export default function TopBar(props: ITopBarProps) {
-  const { genres } = props
+  const { genres, currentGenre } = props.state || {}
+  const { onSelectGenre } = props.actions || {}
+
+  const modifiedGenres = [{ id: 1, name: 'All' }].concat(genres)
 
   if (isEmpty(genres)) {
     return null
   }
 
-  // const modifiedGenres = [{ id: 'dfdf', name: 'All' }].concat(genres)
-
   return (
     <div className="topbar__container">
       {/* {!isEmpty(genres) && genres?.map(g => <div>{g.name}</div>)} */}
       <div className="topbar__genres">
-        {genres?.map(genre => {
+        {modifiedGenres?.map(genre => {
+          const calcClass = `topbar__button ${
+            currentGenre == genre.id ? 'top__button-selected' : ''
+          }`
           return (
             <button
-              // onClick={() => push(`/${genre.id}`)}
               type="button"
-              // className={classNames(
-              //   "mx-2 rounded-lg py-2 px-4 text-base font-light transition ease-in",
-              //   isActiveRoute(genre.id) &&
-              //     "bg-slate-600 font-normal text-slate-200",
-              // )}
               key={genre.id}
-              className="topbar__button"
+              className={calcClass}
+              onClick={() => onSelectGenre(genre.id)}
             >
               {genre?.name}
             </button>
